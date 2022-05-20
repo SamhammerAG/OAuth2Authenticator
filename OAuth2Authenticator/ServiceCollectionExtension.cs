@@ -1,7 +1,7 @@
-﻿namespace OAuth2Authenticator
-{
-    using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
+namespace OAuth2Authenticator
+{
     public static class ServiceCollectionExtension
     {
         /// <summary>

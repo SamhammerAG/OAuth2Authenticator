@@ -1,7 +1,7 @@
-﻿namespace OAuth2Authenticator
-{
-    using System;
+﻿using System;
 
+namespace OAuth2Authenticator
+{
     public static class OAuth2TokenValidator
     {
         /// <summary>
