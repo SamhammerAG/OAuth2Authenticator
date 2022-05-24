@@ -11,6 +11,7 @@ namespace OAuth2Authenticator
         {
             services.AddHttpClient<OAuth2Authenticator>();
             services.AddScoped<IOAuth2Authenticator, OAuth2Authenticator>();
+            services.AddScoped<IOAuth2TokenHandler, OAuth2TokenHandler>();
         }
     }
 }
