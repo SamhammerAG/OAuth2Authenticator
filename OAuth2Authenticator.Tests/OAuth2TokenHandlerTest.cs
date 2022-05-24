@@ -40,7 +40,7 @@ namespace OAuth2Authenticator.Tests
         [Test]
         public async Task RefreshHandlerEmptyToken()
         {
-            var result = await RefreshHandler(null);
+            var result = await RefreshHandler(new OAuth2TokenResponse());
 
             A.CallTo(() => _authenticator.PasswordGrant(
                 A<string>.Ignored,

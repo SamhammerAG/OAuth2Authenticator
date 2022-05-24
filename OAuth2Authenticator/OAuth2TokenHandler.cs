@@ -33,7 +33,7 @@ namespace OAuth2Authenticator
 
             T response;
 
-            if (token is null)
+            if (token is null || string.IsNullOrWhiteSpace(token.AccessToken))
             {
                 response = await getNewToken(url, clientId, cancellationToken);
             }
