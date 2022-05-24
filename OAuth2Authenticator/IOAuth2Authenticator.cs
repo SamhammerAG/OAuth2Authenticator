@@ -27,7 +27,7 @@ namespace OAuth2Authenticator
         /// </summary>
         /// <param name="url">Token endpoint URL.</param>
         /// <param name="clientId">Client ID</param>
-        /// <param name="username">sername</param>
+        /// <param name="username">Username</param>
         /// <param name="password">Password</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Token Response</returns>
