@@ -35,6 +35,8 @@ namespace OAuth2Authenticator.Tests
                 IssueDate = DateTime.Now.Subtract(TimeSpan.FromMinutes(10)),
                 ExpiresIn = 300
             }.Valid());
+
+            Assert.IsFalse(new OAuth2TokenResponse().Valid(10));
         }
     }
 }

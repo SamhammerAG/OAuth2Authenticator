@@ -22,7 +22,7 @@ namespace OAuth2Authenticator
         /// <returns>Valid</returns>
         public static bool Valid(this OAuth2TokenResponse token, int threshold = 0)
         {
-            return token.IssueDate.AddSeconds(token.ExpiresIn - threshold) >= DateTime.Now;
+            return token.IssueDate.AddSeconds(Math.Max(token.ExpiresIn - threshold, 0)) >= DateTime.Now;
         }
     }
 }
