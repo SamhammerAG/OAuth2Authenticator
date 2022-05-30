@@ -9,6 +9,7 @@ using System.Threading;
 
 namespace OAuth2Authenticator
 {
+    /// <inheritdoc />
     public class OAuth2Authenticator : IOAuth2Authenticator
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -22,6 +23,7 @@ namespace OAuth2Authenticator
             _logger = logger;
         }
 
+        /// <inheritdoc />
         public async Task<T> PasswordGrant<T>(
             string url,
             string clientId,
@@ -36,6 +38,7 @@ namespace OAuth2Authenticator
             }, cancellationToken);
         }
 
+        /// <inheritdoc />
         public async Task<OAuth2TokenResponse> PasswordGrant(
             string url,
             string clientId,
@@ -46,6 +49,7 @@ namespace OAuth2Authenticator
             return await PasswordGrant<OAuth2TokenResponse>(url, clientId, username, password, cancellationToken);
         }
 
+        /// <inheritdoc />
         public async Task<T> RefreshTokenGrant<T>(
             string url,
             string clientId,
@@ -58,6 +62,7 @@ namespace OAuth2Authenticator
             }, cancellationToken);
         }
 
+        /// <inheritdoc />
         public async Task<OAuth2TokenResponse> RefreshTokenGrant(
             string url,
             string clientId,
@@ -67,6 +72,7 @@ namespace OAuth2Authenticator
             return await RefreshTokenGrant<OAuth2TokenResponse>(url, clientId, refreshToken, cancellationToken);
         }
 
+        /// <inheritdoc />
         public async Task<T> ClientCredentialsGrant<T>(
             string url,
             string clientId,
@@ -79,6 +85,7 @@ namespace OAuth2Authenticator
             }, cancellationToken);
         }
 
+        /// <inheritdoc />
         public async Task<OAuth2TokenResponse> ClientCredentialsGrant(
             string url,
             string clientId,

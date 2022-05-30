@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using OAuth2Authenticator.Extensions;
 
 namespace OAuth2Authenticator.Tests
 {

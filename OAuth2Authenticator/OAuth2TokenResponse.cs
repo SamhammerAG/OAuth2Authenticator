@@ -4,6 +4,9 @@ using System;
 
 namespace OAuth2Authenticator
 {
+    /// <summary>
+    /// OAuth2 token response model.
+    /// </summary>
     public class OAuth2TokenResponse
     {
         #region Success

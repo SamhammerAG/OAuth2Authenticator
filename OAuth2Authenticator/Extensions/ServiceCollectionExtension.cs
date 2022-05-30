@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace OAuth2Authenticator
+namespace OAuth2Authenticator.Extensions
 {
     public static class ServiceCollectionExtension
     {

@@ -1,5 +1,8 @@
 ﻿namespace OAuth2Authenticator
 {
+    /// <summary>
+    /// This class holds the OAuth2 error codes constants.
+    /// </summary>
     public static class OAuth2ResponseErrors
     {
         // https://datatracker.ietf.org/doc/html/rfc6749#section-5.2

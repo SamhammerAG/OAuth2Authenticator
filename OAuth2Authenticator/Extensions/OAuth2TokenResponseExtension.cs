@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OAuth2Authenticator
+namespace OAuth2Authenticator.Extensions
 {
     public static class OAuth2TokenResponseExtension
     {

@@ -2,9 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using OAuth2Authenticator.Extensions;
 
 namespace OAuth2Authenticator
 {
+    /// <inheritdoc />
     public class OAuth2TokenHandler : IOAuth2TokenHandler
     {
         private readonly IOAuth2Authenticator _authenticator;
@@ -18,6 +20,7 @@ namespace OAuth2Authenticator
             _logger = logger;
         }
 
+        /// <inheritdoc />
         public async Task<T> RefreshHandler<T>(
             T token,
             string url,
@@ -58,6 +61,7 @@ namespace OAuth2Authenticator
             return null;
         }
 
+        /// <inheritdoc />
         public async Task<OAuth2TokenResponse> RefreshHandler(
             OAuth2TokenResponse token,
             string url,
