@@ -108,9 +108,11 @@ namespace OAuth2Authenticator
             parameters.Add("client_id", clientId);
             parameters.Add("grant_type", grant);
 
+            _logger.LogDebug("Requesting token from {url} for client {id} with the {gt} grant type.", url, clientId, grant);
+
             var response = await client.PostAsync(url, new FormUrlEncodedContent(parameters), cancellationToken);
 
-            if (!response.IsSuccessStatusCode) _logger.LogError("Token request failed with an {code} response!", response.StatusCode);
+            if (!response.IsSuccessStatusCode) _logger.LogError("Token request to {url} failed with an {code} response!", url, response.StatusCode);
 
             try
             {
@@ -118,7 +120,7 @@ namespace OAuth2Authenticator
 
                 if (token is null)
                 {
-                    _logger.LogError("Parsed token is empty!");
+                    _logger.LogError("Parsed token from {url} is empty!", url);
                     return null;
                 }
 
@@ -128,7 +130,7 @@ namespace OAuth2Authenticator
             }
             catch (Exception e)
             {
-                _logger.LogError("Token response could not be parsed! {ex}", e);
+                _logger.LogError("Token response from {url} could not be parsed! {ex}", url, e);
                 return null;
             }
         }
