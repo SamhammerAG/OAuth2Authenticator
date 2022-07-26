@@ -112,10 +112,13 @@ namespace OAuth2Authenticator
 
             var response = await client.PostAsync(url, new FormUrlEncodedContent(parameters), cancellationToken);
 
-            if (!response.IsSuccessStatusCode) _logger.LogError("Token request to {url} failed with an {code} response!", url, response.StatusCode);
-
             try
             {
+                if (!response.IsSuccessStatusCode) _logger.LogError("Token request to {url} failed with an {code} response! {content}",
+                    url,
+                    response.StatusCode,
+                    await response.Content.ReadAsStringAsync());
+
                 var token = await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
 
                 if (token is null)
