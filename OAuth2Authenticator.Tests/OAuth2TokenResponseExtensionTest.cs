@@ -38,6 +38,9 @@ namespace OAuth2Authenticator.Tests
             }.Valid());
 
             Assert.IsFalse(new OAuth2TokenResponse().Valid(10));
+
+            OAuth2TokenResponse token = null;
+            Assert.IsFalse(token.Valid());
         }
     }
 }
