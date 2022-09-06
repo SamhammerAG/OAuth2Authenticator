@@ -114,10 +114,7 @@ namespace OAuth2Authenticator
 
             try
             {
-                if (!response.IsSuccessStatusCode) _logger.LogError("Token request to {url} failed with an {code} response! {content}",
-                    url,
-                    response.StatusCode,
-                    await response.Content.ReadAsStringAsync());
+                await OnResponse(response);
 
                 var token = await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
 
@@ -136,6 +133,14 @@ namespace OAuth2Authenticator
                 _logger.LogError("Token response from {url} could not be parsed! {ex}", url, e);
                 return null;
             }
+        }
+
+        protected virtual async Task OnResponse(HttpResponseMessage response)
+        {
+            if (!response.IsSuccessStatusCode) _logger.LogError("Token request to {url} failed with an {code} response! {content}",
+                response.RequestMessage.RequestUri.ToString(),
+                response.StatusCode,
+                await response.Content.ReadAsStringAsync());
         }
     }
 }

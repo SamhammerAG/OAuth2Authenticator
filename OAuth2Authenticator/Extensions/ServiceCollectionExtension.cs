@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OAuth2Authenticator.Internal;
 
 namespace OAuth2Authenticator.Extensions
 {
@@ -11,6 +12,7 @@ namespace OAuth2Authenticator.Extensions
         {
             services.AddHttpClient<OAuth2Authenticator>();
             services.AddScoped<IOAuth2Authenticator, OAuth2Authenticator>();
+            services.AddScoped<IHandlerAuthenticator, HandlerAuthenticator>();
             services.AddScoped<IOAuth2TokenHandler, OAuth2TokenHandler>();
         }
     }

@@ -3,17 +3,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using OAuth2Authenticator.Extensions;
+using OAuth2Authenticator.Internal;
 
 namespace OAuth2Authenticator
 {
     /// <inheritdoc />
     public class OAuth2TokenHandler : IOAuth2TokenHandler
     {
-        private readonly IOAuth2Authenticator _authenticator;
+        private readonly IHandlerAuthenticator _authenticator;
         private readonly ILogger<OAuth2TokenHandler> _logger;
 
         public OAuth2TokenHandler(
-            IOAuth2Authenticator authenticator,
+            IHandlerAuthenticator authenticator,
             ILogger<OAuth2TokenHandler> logger)
         {
             _authenticator = authenticator;

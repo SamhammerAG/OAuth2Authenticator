@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
+using OAuth2Authenticator.Internal;
 
 namespace OAuth2Authenticator.Tests
 {
     public class OAuth2TokenHandlerTest : BaseUnitTest
     {
-        private IOAuth2Authenticator _authenticator;
+        private IHandlerAuthenticator _authenticator;
         private ILogger<OAuth2TokenHandler> _logger;
 
         private OAuth2TokenHandler _handler;
@@ -17,7 +18,7 @@ namespace OAuth2Authenticator.Tests
         [SetUp]
         public void Setup()
         {
-            _authenticator = A.Fake<IOAuth2Authenticator>();
+            _authenticator = A.Fake<IHandlerAuthenticator>();
             _logger = A.Fake<ILogger<OAuth2TokenHandler>>();
 
             _handler = new OAuth2TokenHandler(
