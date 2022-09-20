@@ -18,4 +18,4 @@ jobs:
           dotnet publish -c Release
       - name: Push
         run: |
-          dotnet nuget push "OAuth2Authenticator/bin/Release/OAuth2Authenticator.*.nupkg" --api-key ${{ secrets.NUGET_KEY }} --source https://api.nuget.org/v3/index.json
+          dotnet nuget push "OAuth2Authenticator/bin/Release/OAuth2Authenticator.*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
