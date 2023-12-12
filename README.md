@@ -39,7 +39,7 @@ This class holds common logic which is needed for token handling. Injectable ove
 ```cs
 private readonly IOAuth2TokenHandler _handler;
 
-await _handler.RefreshHandler(token, url, clientId, Func<...> /*To get a new token*/, threshold, cancellationToken));
+await _handler.RefreshHandler(token, url, clientId, Func<...> /*To get a new token*/, threshold));
 ```
 
 ### OAuth2TokenResponseExtension
