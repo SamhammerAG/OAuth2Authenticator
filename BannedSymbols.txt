@@ -1,0 +1,1 @@
+T:NUnit.Framework.Assert; Use FluentAssertions instead of NUnit assertions

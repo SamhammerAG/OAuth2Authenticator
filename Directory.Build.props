@@ -1,0 +1,7 @@
+<Project>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\BannedSymbols.txt" />
+  </ItemGroup>
+
+</Project>

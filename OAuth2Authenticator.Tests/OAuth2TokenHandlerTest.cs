@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FakeItEasy;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using OAuth2Authenticator.Internal;
@@ -35,7 +36,7 @@ namespace OAuth2Authenticator.Tests
 
             var result = await RefreshHandler(token);
 
-            Assert.AreEqual(token, result);
+            result.Should().Be(token);
         }
 
         [Test]
@@ -50,7 +51,7 @@ namespace OAuth2Authenticator.Tests
                 A<string>.Ignored,
                 A<CancellationToken>.Ignored)).MustHaveHappened();
 
-            Assert.IsNotNull(result);
+            result.Should().NotBeNull();
         }
 
         [Test]
@@ -68,8 +69,8 @@ namespace OAuth2Authenticator.Tests
                 token.RefreshToken,
                 A<CancellationToken>.Ignored)).MustHaveHappened();
 
-            Assert.IsNotNull(token);
-            Assert.AreNotEqual(result.AccessToken, token.AccessToken);
+            token.Should().NotBeNull();
+            token.AccessToken.Should().NotBe(result.AccessToken);
         }
 
         [Test]
@@ -97,8 +98,8 @@ namespace OAuth2Authenticator.Tests
                 A<string>.Ignored,
                 A<CancellationToken>.Ignored)).MustHaveHappened();
 
-            Assert.IsNotNull(result);
-            Assert.AreNotEqual(result.AccessToken, token.AccessToken);
+            result.Should().NotBeNull();
+            token.AccessToken.Should().NotBe(result.AccessToken);
         }
 
         [Test]
@@ -119,7 +120,7 @@ namespace OAuth2Authenticator.Tests
 
             var result = await RefreshHandler(token);
 
-            Assert.IsNull(result);
+            result.Should().BeNull();
         }
 
         private async Task<OAuth2TokenResponse> RefreshHandler(OAuth2TokenResponse token)
