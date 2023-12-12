@@ -25,7 +25,7 @@ This class holds the request logic for all OAuth2 grant types. Injectable over t
 ```cs
 private readonly IOAuth2Authenticator _authenticator;
 
-await _authenticator.PasswordGrant(url, clientId, username, password, cancellationToken);
+await _authenticator.PasswordGrant(url, clientId, username, password);
 
 await _authenticator.RefreshTokenGrant(url, clientId, refreshToken);
 
