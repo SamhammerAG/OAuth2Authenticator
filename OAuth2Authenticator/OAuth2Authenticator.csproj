@@ -4,7 +4,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
 
         <PackageId>OAuth2Authenticator</PackageId>
-        <Version>3.5.1</Version>
+        <Version>3.6.0</Version>
         <RepositoryUrl>https://github.com/SamhammerAG/OAuth2Authenticator</RepositoryUrl>
         <Authors>Samhammer AG</Authors>
         <Company>Samhammer AG</Company>
