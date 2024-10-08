@@ -36,10 +36,20 @@ After the request, a `OAuth2TokenResponse` or `null` returns.
 
 ### OAuth2TokenHandler
 This class holds common logic which is needed for token handling. Injectable over the `IOAuth2TokenHandler` interface.
+
+#### RefreshHandler
+The refresh handler checks whether the access token is about to expire or has already expired and automatically attempts to renew the token with the refresh token. If a renewal with the refresh token is not possible, a new token is retrieved via the specified callback. The handler always attempts to return a valid token.
 ```cs
 private readonly IOAuth2TokenHandler _handler;
 
-await _handler.RefreshHandler(token, url, clientId, Func<...> /*To get a new token*/, threshold));
+var refreshedToken await _handler.RefreshHandler(
+    lastToken,
+    url,
+    clientId,
+    async (url, clientId, cancellationToken) =>
+    {
+        return await _authenticator.PasswordGrant(url, clientId, username, password);
+    });
 ```
 
 ### OAuth2TokenResponseExtension
