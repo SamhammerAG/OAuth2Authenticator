@@ -1,7 +1,7 @@
 # OAuth2Authenticator
 [![ci](https://github.com/SamhammerAG/OAuth2Authenticator/workflows/CI/badge.svg)](https://github.com/SamhammerAG/OAuth2Authenticator)
 
-OAuth2 client for obtaining and refreshing of access tokens.
+OAuth2 client for retrieving OAuth2 tokens and common token handling logic such as refresh and client credentials.
 
 [Nuget Package](https://www.nuget.org/packages/OAuth2Authenticator)
 
@@ -42,14 +42,28 @@ The refresh handler checks whether the access token is about to expire or has al
 ```cs
 private readonly IOAuth2TokenHandler _handler;
 
-var refreshedToken await _handler.RefreshHandler(
-    lastToken,
+OAuth2TokenResponse token;
+token = await _handler.RefreshHandler(
+    token,
     url,
     clientId,
     async (url, clientId, cancellationToken) =>
     {
         return await _authenticator.PasswordGrant(url, clientId, username, password);
     });
+```
+
+#### ClientCredentialsHandler
+The client credentials handler checks whether the access token is about to expire or has already expired and automatically requests a new token.
+```cs
+private readonly IOAuth2TokenHandler _handler;
+
+OAuth2TokenResponse token;
+token = await _handler.ClientCredentialsHandler(
+    token,
+    url,
+    clientId,
+    clientSecret);
 ```
 
 ### OAuth2TokenResponseExtension

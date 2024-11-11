@@ -11,11 +11,11 @@ namespace OAuth2Authenticator.Internal
         {
         }
 
-        protected override async Task OnResponse(HttpResponseMessage response)
+        protected override async Task OnResponse(HttpResponseMessage? resp)
         {
-            if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.BadRequest)
+            if (resp is not null && !resp.IsSuccessStatusCode && resp.StatusCode != HttpStatusCode.BadRequest)
             {
-                await base.OnResponse(response);
+                await base.OnResponse(resp);
             }
         }
     }

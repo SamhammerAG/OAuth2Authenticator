@@ -24,14 +24,14 @@ namespace OAuth2Authenticator
         }
 
         /// <inheritdoc />
-        public async Task<T> PasswordGrant<T>(
+        public async Task<T?> PasswordGrant<T>(
             string url,
             string clientId,
             string username,
             string password,
-            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse
+            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?
         {
-            return await RequestToken<T>(url, clientId, "password", new Dictionary<string, string>
+            return await RequestToken<T?>(url, clientId, "password", new Dictionary<string, string>
             {
                 { "username", username },
                 { "password", password }
@@ -39,22 +39,22 @@ namespace OAuth2Authenticator
         }
 
         /// <inheritdoc />
-        public async Task<OAuth2TokenResponse> PasswordGrant(
+        public async Task<OAuth2TokenResponse?> PasswordGrant(
             string url,
             string clientId,
             string username,
             string password,
             CancellationToken cancellationToken = default)
         {
-            return await PasswordGrant<OAuth2TokenResponse>(url, clientId, username, password, cancellationToken);
+            return await PasswordGrant<OAuth2TokenResponse?>(url, clientId, username, password, cancellationToken);
         }
 
         /// <inheritdoc />
-        public async Task<T> RefreshTokenGrant<T>(
+        public async Task<T?> RefreshTokenGrant<T>(
             string url,
             string clientId,
             string refreshToken,
-            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse
+            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?
         {
             return await RequestToken<T>(url, clientId, "refresh_token", new Dictionary<string, string>
             {
@@ -63,21 +63,21 @@ namespace OAuth2Authenticator
         }
 
         /// <inheritdoc />
-        public async Task<OAuth2TokenResponse> RefreshTokenGrant(
+        public async Task<OAuth2TokenResponse?> RefreshTokenGrant(
             string url,
             string clientId,
             string refreshToken,
             CancellationToken cancellationToken = default)
         {
-            return await RefreshTokenGrant<OAuth2TokenResponse>(url, clientId, refreshToken, cancellationToken);
+            return await RefreshTokenGrant<OAuth2TokenResponse?>(url, clientId, refreshToken, cancellationToken);
         }
 
         /// <inheritdoc />
-        public async Task<T> ClientCredentialsGrant<T>(
+        public async Task<T?> ClientCredentialsGrant<T>(
             string url,
             string clientId,
             string clientSecret,
-            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse
+            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?
         {
             return await RequestToken<T>(url, clientId, "client_credentials", new Dictionary<string, string>
             {
@@ -86,21 +86,21 @@ namespace OAuth2Authenticator
         }
 
         /// <inheritdoc />
-        public async Task<OAuth2TokenResponse> ClientCredentialsGrant(
+        public async Task<OAuth2TokenResponse?> ClientCredentialsGrant(
             string url,
             string clientId,
             string clientSecret,
             CancellationToken cancellationToken = default)
         {
-            return await ClientCredentialsGrant<OAuth2TokenResponse>(url, clientId, clientSecret, cancellationToken);
+            return await ClientCredentialsGrant<OAuth2TokenResponse?>(url, clientId, clientSecret, cancellationToken);
         }
 
-        private async Task<T> RequestToken<T>(
+        private async Task<T?> RequestToken<T>(
             string url,
             string clientId,
             string grant,
             Dictionary<string, string> parameters,
-            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse
+            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?
         {
             // Create a named client so that it can also be unit tested.
             var client = _httpClientFactory.CreateClient(Options.DefaultName);
@@ -108,7 +108,7 @@ namespace OAuth2Authenticator
             parameters.Add("client_id", clientId);
             parameters.Add("grant_type", grant);
 
-            _logger.LogDebug("Requesting token from {url} for client {id} with the {gt} grant type.", url, clientId, grant);
+            _logger.LogDebug("Requesting token from {0} for client {1} with the {2} grant type.", url, clientId, grant);
 
             var response = await client.PostAsync(url, new FormUrlEncodedContent(parameters), cancellationToken);
 
@@ -116,11 +116,11 @@ namespace OAuth2Authenticator
             {
                 await OnResponse(response);
 
-                var token = await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
+                var token = await response.Content.ReadFromJsonAsync<T?>(cancellationToken: cancellationToken);
 
                 if (token is null)
                 {
-                    _logger.LogError("Parsed token from {url} is empty!", url);
+                    _logger.LogError("Parsed token from {0} is empty!", url);
                     return null;
                 }
 
@@ -130,17 +130,26 @@ namespace OAuth2Authenticator
             }
             catch (Exception e)
             {
-                _logger.LogError("Token response from {url} could not be parsed! {ex}", url, e);
+                _logger.LogError(e, "Token response from {0} could not be parsed!", url);
                 return null;
             }
         }
 
-        protected virtual async Task OnResponse(HttpResponseMessage response)
+        protected virtual async Task OnResponse(HttpResponseMessage? resp)
         {
-            if (!response.IsSuccessStatusCode) _logger.LogError("Token request to {url} failed with an {code} response! {content}",
-                response.RequestMessage.RequestUri.ToString(),
-                response.StatusCode,
-                await response.Content.ReadAsStringAsync());
+            if (resp is null)
+            {
+                _logger.LogError("Token request failed and returned an null response!");
+                return;
+            }
+
+            if (!resp.IsSuccessStatusCode)
+            {
+                _logger.LogError("Token request to {0} failed with an {1} response! {2}",
+                    resp.RequestMessage.RequestUri.ToString(),
+                    resp.StatusCode,
+                    await resp.Content.ReadAsStringAsync());
+            }
         }
     }
 }

@@ -139,4 +139,86 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
                     cancellationToken);
             });
     }
+
+    [Test]
+    public async Task ClientCredentialsHandlerValidToken()
+    {
+        var token = FillObject<OAuth2TokenResponse>();
+        token.IssueDate = DateTime.Now;
+        token.ExpiresIn = 300;
+
+        var result = await ClientCredentialsHandler(token);
+
+        result.Should().Be(token);
+    }
+
+    [Test]
+    public async Task ClientCredentialsHandlerEmptyToken()
+    {
+        var result = await ClientCredentialsHandler(new OAuth2TokenResponse());
+
+        A.CallTo(() => _authenticator.ClientCredentialsGrant<OAuth2TokenResponse>(
+            A<string>.Ignored,
+            A<string>.Ignored,
+            A<string>.Ignored,
+            A<CancellationToken>.Ignored)).MustHaveHappened();
+
+        result.Should().NotBeNull();
+    }
+
+    [Test]
+    public async Task ClientCredentialsHandlerNewToken()
+    {
+        var token = FillObject<OAuth2TokenResponse>();
+        token.IssueDate = DateTime.Now.Subtract(TimeSpan.FromMinutes(10));
+        token.ExpiresIn = 300;
+
+        var clientId = GetRandomString();
+        var clientSecret = GetRandomString();
+
+        var result = await ClientCredentialsHandler(token, clientId, clientSecret);
+
+        A.CallTo(() => _authenticator.ClientCredentialsGrant<OAuth2TokenResponse>(
+            A<string>.Ignored,
+            clientId,
+            clientSecret,
+            A<CancellationToken>.Ignored)).MustHaveHappened();
+
+        token.Should().NotBeNull();
+        token.AccessToken.Should().NotBe(result.AccessToken);
+    }
+
+    [Test]
+    public async Task ClientCredentialsHandlerError()
+    {
+        var token = FillObject<OAuth2TokenResponse>();
+        token.IssueDate = DateTime.Now.Subtract(TimeSpan.FromMinutes(10));
+        token.ExpiresIn = 300;
+
+        var clientId = GetRandomString();
+        var clientSecret = GetRandomString();
+
+        A.CallTo(() => _authenticator.ClientCredentialsGrant<OAuth2TokenResponse>(
+            A<string>.Ignored,
+            clientId,
+            clientSecret,
+            A<CancellationToken>.Ignored)).Returns(new OAuth2TokenResponse
+            {
+                Error = GetRandomString()
+            });
+
+        var result = await ClientCredentialsHandler(token, clientId, clientSecret);
+
+        result.Should().BeNull();
+    }
+
+    private async Task<OAuth2TokenResponse> ClientCredentialsHandler(
+        OAuth2TokenResponse token, string clientId = default, string clientSecret = default)
+    {
+        return await _handler.ClientCredentialsHandler(
+            token,
+            "https://youtu.be/q2RQyrp6j_A",
+            clientId ?? GetRandomString(),
+            clientSecret ?? GetRandomString());
+    }
 }

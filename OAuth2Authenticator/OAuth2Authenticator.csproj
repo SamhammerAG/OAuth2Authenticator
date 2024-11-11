@@ -1,7 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latestMajor</LangVersion>
+        <Nullable>enable</Nullable>
 
         <PackageId>OAuth2Authenticator</PackageId>
         <Description>OAuth 2 client and token management</Description>
@@ -26,7 +28,7 @@
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
-      <PackageReference Include="System.Text.Json" Version="8.0.4" />
+      <PackageReference Include="System.Text.Json" Version="8.0.5" />
     </ItemGroup>
 
 </Project>

@@ -17,15 +17,15 @@ namespace OAuth2Authenticator
         /// <param name="password">Password</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Token Response</returns>
-        Task<T> PasswordGrant<T>(
+        Task<T?> PasswordGrant<T>(
             string url,
             string clientId,
             string username,
             string password,
-            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse;
+            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?;
 
         /// <inheritdoc cref="PasswordGrant{T}"/>
-        Task<OAuth2TokenResponse> PasswordGrant(
+        Task<OAuth2TokenResponse?> PasswordGrant(
             string url,
             string clientId,
             string username,
@@ -40,14 +40,14 @@ namespace OAuth2Authenticator
         /// <param name="refreshToken">Token</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Token Response</returns>
-        Task<T> RefreshTokenGrant<T>(
+        Task<T?> RefreshTokenGrant<T>(
             string url,
             string clientId,
             string refreshToken,
-            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse;
+            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?;
 
         /// <inheritdoc cref="RefreshTokenGrant{T}"/>
-        Task<OAuth2TokenResponse> RefreshTokenGrant(
+        Task<OAuth2TokenResponse?> RefreshTokenGrant(
             string url,
             string clientId,
             string refreshToken,
@@ -61,14 +61,14 @@ namespace OAuth2Authenticator
         /// <param name="clientSecret">Client Secret</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Token Response</returns>
-        Task<T> ClientCredentialsGrant<T>(
+        Task<T?> ClientCredentialsGrant<T>(
             string url,
             string clientId,
             string clientSecret,
-            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse;
+            CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?;
 
         /// <inheritdoc cref="ClientCredentialsGrant{T}"/>
-        Task<OAuth2TokenResponse> ClientCredentialsGrant(
+        Task<OAuth2TokenResponse?> ClientCredentialsGrant(
             string url,
             string clientId,
             string clientSecret,
