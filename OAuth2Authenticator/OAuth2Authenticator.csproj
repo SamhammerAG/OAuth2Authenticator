@@ -7,7 +7,7 @@
 
         <PackageId>OAuth2Authenticator</PackageId>
         <Description>OAuth 2 client and token management</Description>
-        <Version>3.7.2</Version>
+        <Version>3.8.0</Version>
         <RepositoryUrl>https://github.com/SamhammerAG/OAuth2Authenticator</RepositoryUrl>
         <PackageProjectUrl>https://github.com/SamhammerAG/OAuth2Authenticator</PackageProjectUrl>
         <Authors>Samhammer AG</Authors>
