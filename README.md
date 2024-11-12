@@ -60,7 +60,6 @@ The client credentials handler checks whether the access token is about to expir
 private readonly IOAuth2TokenHandler _handler;
 private static OAuth2TokenResponse token; // Save the last token somewhere static or distributed.
 
-OAuth2TokenResponse token;
 token = await _handler.ClientCredentialsHandler(
     token,
     url,
