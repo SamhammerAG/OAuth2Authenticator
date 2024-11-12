@@ -41,14 +41,15 @@ This class holds common logic which is needed for token handling. Injectable ove
 The refresh handler checks whether the access token is about to expire or has already expired and automatically attempts to renew the token with the refresh token. If a renewal with the refresh token is not possible, a new token is retrieved via the specified callback. The handler always attempts to return a valid token.
 ```cs
 private readonly IOAuth2TokenHandler _handler;
+private static OAuth2TokenResponse token; // Save the last token somewhere static or distributed.
 
-OAuth2TokenResponse token;
 token = await _handler.RefreshHandler(
     token,
     url,
     clientId,
     async (url, clientId, cancellationToken) =>
     {
+        // Is executed to obtain a new token if an refresh was not possible or none exists yet.
         return await _authenticator.PasswordGrant(url, clientId, username, password);
     });
 ```
@@ -57,6 +58,7 @@ token = await _handler.RefreshHandler(
 The client credentials handler checks whether the access token is about to expire or has already expired and automatically requests a new token.
 ```cs
 private readonly IOAuth2TokenHandler _handler;
+private static OAuth2TokenResponse token; // Save the last token somewhere static or distributed.
 
 OAuth2TokenResponse token;
 token = await _handler.ClientCredentialsHandler(
