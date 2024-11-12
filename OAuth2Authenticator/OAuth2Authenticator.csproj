@@ -15,7 +15,6 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageTags>OAuth2 Client OAuth2-Client ASP.NET-Core SPA Token Management Token-Management</PackageTags>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
