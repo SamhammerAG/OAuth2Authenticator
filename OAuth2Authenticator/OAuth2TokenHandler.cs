@@ -64,7 +64,7 @@ namespace OAuth2Authenticator
 
         /// <inheritdoc />
         public async Task<OAuth2TokenResponse?> RefreshHandler(
-            OAuth2TokenResponse token,
+            OAuth2TokenResponse? token,
             string url,
             string clientId,
             Func<string, string, CancellationToken, Task<OAuth2TokenResponse>> getNewToken,
@@ -104,7 +104,7 @@ namespace OAuth2Authenticator
 
         /// <inheritdoc />
         public async Task<OAuth2TokenResponse?> ClientCredentialsHandler(
-            OAuth2TokenResponse token,
+            OAuth2TokenResponse? token,
             string url,
             string clientId,
             string clientSecret,

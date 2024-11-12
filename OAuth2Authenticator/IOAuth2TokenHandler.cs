@@ -20,7 +20,7 @@ namespace OAuth2Authenticator
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Valid token or null.</returns>
         Task<T?> RefreshHandler<T>(
-            T token,
+            T? token,
             string url,
             string clientId,
             Func<string, string, CancellationToken, Task<T>> getNewToken,
@@ -30,7 +30,7 @@ namespace OAuth2Authenticator
 
         /// <inheritdoc cref="RefreshHandler{T}"/>
         Task<OAuth2TokenResponse?> RefreshHandler(
-            OAuth2TokenResponse token,
+            OAuth2TokenResponse? token,
             string url,
             string clientId,
             Func<string, string, CancellationToken, Task<OAuth2TokenResponse>> getNewToken,
@@ -48,7 +48,7 @@ namespace OAuth2Authenticator
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Valid token or null.</returns>
         Task<T?> ClientCredentialsHandler<T>(
-            T token,
+            T? token,
             string url,
             string clientId,
             string clientSecret,
@@ -57,7 +57,7 @@ namespace OAuth2Authenticator
 
         /// <inheritdoc cref="ClientCredentialsHandler{T}"/>
         Task<OAuth2TokenResponse?> ClientCredentialsHandler(
-            OAuth2TokenResponse token,
+            OAuth2TokenResponse? token,
             string url,
             string clientId,
             string clientSecret,
