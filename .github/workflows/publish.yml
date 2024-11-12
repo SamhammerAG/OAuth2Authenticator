@@ -15,7 +15,7 @@ jobs:
           dotnet-version: '8.0.x'
       - name: Pack
         run: |
-          dotnet pack OAuth2Authenticator\OAuth2Authenticator.csproj -c Release --nologo
+          dotnet pack -c Release --nologo
       - name: Push
         run: |
           dotnet nuget push "OAuth2Authenticator/bin/Release/OAuth2Authenticator.*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
