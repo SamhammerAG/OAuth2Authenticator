@@ -26,7 +26,8 @@ namespace OAuth2Authenticator
             T? token,
             string url,
             string clientId,
-            Func<string, string, CancellationToken, Task<T>> getNewToken,
+            Func<Task<T>> getNewToken,
+            string? scope = default,
             int threshold = 10,
             CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?
         {
@@ -39,18 +40,18 @@ namespace OAuth2Authenticator
 
             if (token is null || string.IsNullOrWhiteSpace(token.AccessToken))
             {
-                resp = await getNewToken(url, clientId, cancellationToken);
+                resp = await getNewToken();
             }
             else
             {
-                resp = await _authenticator.RefreshTokenGrant<T?>(url, clientId, token.RefreshToken, cancellationToken);
+                resp = await _authenticator.RefreshTokenGrant<T?>(url, clientId, token.RefreshToken, scope, cancellationToken);
             }
 
             // Refresh token is invalid, expired or revoked.
             // https://tools.ietf.org/html/rfc6749#section-5.2
             if (resp?.Error == OAuth2ResponseErrors.InvalidGrant)
             {
-                resp = await getNewToken(url, clientId, cancellationToken);
+                resp = await getNewToken();
             }
 
             if (!resp.Successful())
@@ -67,7 +68,8 @@ namespace OAuth2Authenticator
             OAuth2TokenResponse? token,
             string url,
             string clientId,
-            Func<string, string, CancellationToken, Task<OAuth2TokenResponse>> getNewToken,
+            Func<Task<OAuth2TokenResponse>> getNewToken,
+            string? scope = default,
             int threshold = 10,
             CancellationToken cancellationToken = default)
         {
@@ -76,6 +78,7 @@ namespace OAuth2Authenticator
                 url,
                 clientId,
                 getNewToken,
+                scope,
                 threshold,
                 cancellationToken);
         }
@@ -86,12 +89,13 @@ namespace OAuth2Authenticator
             string url,
             string clientId,
             string clientSecret,
+            string? scope = default,
             int threshold = 10,
             CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?
         {
             if (token is not null && token.Valid(threshold)) return token;
 
-            T? resp = await _authenticator.ClientCredentialsGrant<T?>(url, clientId, clientSecret, cancellationToken);
+            T? resp = await _authenticator.ClientCredentialsGrant<T?>(url, clientId, clientSecret, scope, cancellationToken);
 
             if (!resp.Successful())
             {
@@ -108,6 +112,7 @@ namespace OAuth2Authenticator
             string url,
             string clientId,
             string clientSecret,
+            string? scope = default,
             int threshold = 10,
             CancellationToken cancellationToken = default)
         {
@@ -116,6 +121,7 @@ namespace OAuth2Authenticator
                 url,
                 clientId,
                 clientSecret,
+                scope,
                 threshold,
                 cancellationToken);
         }

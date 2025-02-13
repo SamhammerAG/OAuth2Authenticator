@@ -15,7 +15,7 @@ namespace OAuth2Authenticator
         /// <param name="token">Token</param>
         /// <param name="url">Token endpoint URL</param>
         /// <param name="clientId">Client ID</param>
-        /// <param name="getNewToken">Function to get a new token. Arguments: URL, Client ID, Cancellation Token</param>
+        /// <param name="getNewToken">Function to get a new token.</param>
         /// <param name="threshold">The given threshold in seconds gets removed of the token life span. So the token expires before the actual expiration time.</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Valid token or null.</returns>
@@ -23,7 +23,8 @@ namespace OAuth2Authenticator
             T? token,
             string url,
             string clientId,
-            Func<string, string, CancellationToken, Task<T>> getNewToken,
+            Func<Task<T>> getNewToken,
+            string? scope = default,
             int threshold = 10,
             CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?;
 
@@ -33,7 +34,8 @@ namespace OAuth2Authenticator
             OAuth2TokenResponse? token,
             string url,
             string clientId,
-            Func<string, string, CancellationToken, Task<OAuth2TokenResponse>> getNewToken,
+            Func<Task<OAuth2TokenResponse>> getNewToken,
+            string? scope = default,
             int threshold = 10,
             CancellationToken cancellationToken = default);
 
@@ -52,6 +54,7 @@ namespace OAuth2Authenticator
             string url,
             string clientId,
             string clientSecret,
+            string? scope = default,
             int threshold = 10,
             CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?;
 
@@ -61,6 +64,7 @@ namespace OAuth2Authenticator
             string url,
             string clientId,
             string clientSecret,
+            string? scope = default,
             int threshold = 10,
             CancellationToken cancellationToken = default);
     }

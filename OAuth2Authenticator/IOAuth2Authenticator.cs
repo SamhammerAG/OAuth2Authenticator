@@ -15,6 +15,7 @@ namespace OAuth2Authenticator
         /// <param name="clientId">Client ID</param>
         /// <param name="username">Username</param>
         /// <param name="password">Password</param>
+        /// <param name="scope">Scope</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Token Response</returns>
         Task<T?> PasswordGrant<T>(
@@ -22,6 +23,7 @@ namespace OAuth2Authenticator
             string clientId,
             string username,
             string password,
+            string? scope = default,
             CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?;
 
         /// <inheritdoc cref="PasswordGrant{T}"/>
@@ -30,6 +32,7 @@ namespace OAuth2Authenticator
             string clientId,
             string username,
             string password,
+            string? scope = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -38,12 +41,14 @@ namespace OAuth2Authenticator
         /// <param name="url">Token endpoint URL.</param>
         /// <param name="clientId">Client ID</param>
         /// <param name="refreshToken">Token</param>
+        /// <param name="scope">Scope</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Token Response</returns>
         Task<T?> RefreshTokenGrant<T>(
             string url,
             string clientId,
             string refreshToken,
+            string? scope = default,
             CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?;
 
         /// <inheritdoc cref="RefreshTokenGrant{T}"/>
@@ -51,6 +56,7 @@ namespace OAuth2Authenticator
             string url,
             string clientId,
             string refreshToken,
+            string? scope = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -59,12 +65,14 @@ namespace OAuth2Authenticator
         /// <param name="url">Token endpoint URL.</param>
         /// <param name="clientId">Client ID</param>
         /// <param name="clientSecret">Client Secret</param>
+        /// <param name="scope">Scope</param>
         /// <param name="cancellationToken">Optional cancellation token</param>
         /// <returns>Token Response</returns>
         Task<T?> ClientCredentialsGrant<T>(
             string url,
             string clientId,
             string clientSecret,
+            string? scope = default,
             CancellationToken cancellationToken = default) where T : OAuth2TokenResponse?;
 
         /// <inheritdoc cref="ClientCredentialsGrant{T}"/>
@@ -72,6 +80,7 @@ namespace OAuth2Authenticator
             string url,
             string clientId,
             string clientSecret,
+            string? scope = default,
             CancellationToken cancellationToken = default);
     }
 }

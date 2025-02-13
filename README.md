@@ -47,7 +47,7 @@ token = await _handler.RefreshHandler(
     token,
     url,
     clientId,
-    async (url, clientId, cancellationToken) =>
+    async () =>
     {
         // Is executed to obtain a new token if an refresh was not possible or none exists yet.
         return await _authenticator.PasswordGrant(url, clientId, username, password);
