@@ -2,13 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using FakeItEasy;
-using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OAuth2Authenticator.Internal;
 
 namespace OAuth2Authenticator.Tests;
 
+[TestClass]
 public class OAuth2TokenHandlerTest : BaseUnitTest
 {
     private IHandlerAuthenticator _authenticator;
@@ -16,7 +16,7 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
 
     private OAuth2TokenHandler _handler;
 
-    [SetUp]
+    [TestInitialize]
     public void Setup()
     {
         _authenticator = A.Fake<IHandlerAuthenticator>();
@@ -27,7 +27,7 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
             _logger);
     }
 
-    [Test]
+    [TestMethod]
     public async Task RefreshHandlerValidToken()
     {
         var token = FillObject<OAuth2TokenResponse>();
@@ -36,10 +36,10 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
 
         var result = await RefreshHandler(token);
 
-        result.Should().Be(token);
+        Assert.AreEqual(token, result);
     }
 
-    [Test]
+    [TestMethod]
     public async Task RefreshHandlerEmptyToken()
     {
         var result = await RefreshHandler(new OAuth2TokenResponse());
@@ -49,12 +49,13 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
             A<string>.Ignored,
             A<string>.Ignored,
             A<string>.Ignored,
+            A<string>.Ignored,
             A<CancellationToken>.Ignored)).MustHaveHappened();
 
-        result.Should().NotBeNull();
+        Assert.IsNotNull(result);
     }
 
-    [Test]
+    [TestMethod]
     public async Task RefreshHandlerRefreshToken()
     {
         var token = FillObject<OAuth2TokenResponse>();
@@ -67,13 +68,14 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
             A<string>.Ignored,
             A<string>.Ignored,
             token.RefreshToken,
+            A<string>.Ignored,
             A<CancellationToken>.Ignored)).MustHaveHappened();
 
-        token.Should().NotBeNull();
-        token.AccessToken.Should().NotBe(result.AccessToken);
+        Assert.IsNotNull(token);
+        Assert.AreNotEqual(result.AccessToken, token.AccessToken);
     }
 
-    [Test]
+    [TestMethod]
     public async Task RefreshHandlerInvalidGrantError()
     {
         var token = FillObject<OAuth2TokenResponse>();
@@ -84,6 +86,7 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
             A<string>.Ignored,
             A<string>.Ignored,
             token.RefreshToken,
+            A<string>.Ignored,
             A<CancellationToken>.Ignored)).Returns(new OAuth2TokenResponse
         {
             Error = OAuth2ResponseErrors.InvalidGrant
@@ -96,13 +99,14 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
             A<string>.Ignored,
             A<string>.Ignored,
             A<string>.Ignored,
+            A<string>.Ignored,
             A<CancellationToken>.Ignored)).MustHaveHappened();
 
-        result.Should().NotBeNull();
-        token.AccessToken.Should().NotBe(result.AccessToken);
+        Assert.IsNotNull(result);
+        Assert.AreNotEqual(result.AccessToken, token.AccessToken);
     }
 
-    [Test]
+    [TestMethod]
     public async Task RefreshHandlerError()
     {
         var token = FillObject<OAuth2TokenResponse>();
@@ -113,6 +117,7 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
             A<string>.Ignored,
             A<string>.Ignored,
             token.RefreshToken,
+            A<string>.Ignored,
             A<CancellationToken>.Ignored)).Returns(new OAuth2TokenResponse
         {
             Error = GetRandomString()
@@ -120,7 +125,7 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
 
         var result = await RefreshHandler(token);
 
-        result.Should().BeNull();
+        Assert.IsNull(result);
     }
 
     private async Task<OAuth2TokenResponse> RefreshHandler(OAuth2TokenResponse token)
@@ -129,18 +134,18 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
             token,
             "https://youtu.be/dQw4w9WgXcQ",
             GetRandomString(),
-            async (url, clientId, cancellationToken) =>
+            async () =>
             {
                 return await _authenticator.PasswordGrant(
                     GetRandomString(),
                     GetRandomString(),
                     GetRandomString(),
                     GetRandomString(),
-                    cancellationToken);
+                    GetRandomString());
             });
     }
 
-    [Test]
+    [TestMethod]
     public async Task ClientCredentialsHandlerValidToken()
     {
         var token = FillObject<OAuth2TokenResponse>();
@@ -149,10 +154,10 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
 
         var result = await ClientCredentialsHandler(token);
 
-        result.Should().Be(token);
+        Assert.AreEqual(token, result);
     }
 
-    [Test]
+    [TestMethod]
     public async Task ClientCredentialsHandlerEmptyToken()
     {
         var result = await ClientCredentialsHandler(new OAuth2TokenResponse());
@@ -161,12 +166,13 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
             A<string>.Ignored,
             A<string>.Ignored,
             A<string>.Ignored,
+            A<string>.Ignored,
             A<CancellationToken>.Ignored)).MustHaveHappened();
 
-        result.Should().NotBeNull();
+        Assert.IsNotNull(result);
     }
 
-    [Test]
+    [TestMethod]
     public async Task ClientCredentialsHandlerNewToken()
     {
         var token = FillObject<OAuth2TokenResponse>();
@@ -182,13 +188,14 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
             A<string>.Ignored,
             clientId,
             clientSecret,
+            A<string>.Ignored,
             A<CancellationToken>.Ignored)).MustHaveHappened();
 
-        token.Should().NotBeNull();
-        token.AccessToken.Should().NotBe(result.AccessToken);
+        Assert.IsNotNull(token);
+        Assert.AreNotEqual(result.AccessToken, token.AccessToken);
     }
 
-    [Test]
+    [TestMethod]
     public async Task ClientCredentialsHandlerError()
     {
         var token = FillObject<OAuth2TokenResponse>();
@@ -202,6 +209,7 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
             A<string>.Ignored,
             clientId,
             clientSecret,
+            A<string>.Ignored,
             A<CancellationToken>.Ignored)).Returns(new OAuth2TokenResponse
             {
                 Error = GetRandomString()
@@ -209,7 +217,7 @@ public class OAuth2TokenHandlerTest : BaseUnitTest
 
         var result = await ClientCredentialsHandler(token, clientId, clientSecret);
 
-        result.Should().BeNull();
+        Assert.IsNull(result);
     }
 
     private async Task<OAuth2TokenResponse> ClientCredentialsHandler(

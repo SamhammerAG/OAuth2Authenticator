@@ -1,46 +1,49 @@
 ﻿using System;
-using FluentAssertions;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OAuth2Authenticator.Extensions;
 
 namespace OAuth2Authenticator.Tests;
 
+[TestClass]
 public class OAuth2TokenResponseExtensionTest : BaseUnitTest
 {
-    [Test]
+    [TestMethod]
     public void Successful()
     {
-        new OAuth2TokenResponse().Successful().Should().BeTrue();
-        new OAuth2TokenResponse {Error = string.Empty}.Successful().Should().BeTrue();
+        Assert.IsTrue(new OAuth2TokenResponse().Successful());
+        Assert.IsTrue(new OAuth2TokenResponse { Error = string.Empty }.Successful());
 
         OAuth2TokenResponse token = null;
-        token.Successful().Should().BeFalse();
+        Assert.IsFalse(token.Successful());
     }
 
-    [Test]
+    [TestMethod]
     public void Valid()
     {
-        new OAuth2TokenResponse
-        {
-            IssueDate = DateTime.Now,
-            ExpiresIn = 300
-        }.Valid().Should().BeTrue();
+        Assert.IsTrue(
+            new OAuth2TokenResponse
+            {
+                IssueDate = DateTime.Now,
+                ExpiresIn = 300
+            }.Valid());
 
-        new OAuth2TokenResponse
-        {
-            IssueDate = DateTime.Now.Subtract(TimeSpan.FromSeconds(10)),
-            ExpiresIn = 20
-        }.Valid(10).Should().BeFalse();
+        Assert.IsFalse(
+            new OAuth2TokenResponse
+            {
+                IssueDate = DateTime.Now.Subtract(TimeSpan.FromSeconds(10)),
+                ExpiresIn = 20
+            }.Valid(10));
 
-        new OAuth2TokenResponse
-        {
-            IssueDate = DateTime.Now.Subtract(TimeSpan.FromMinutes(10)),
-            ExpiresIn = 300
-        }.Valid().Should().BeFalse();
+        Assert.IsFalse(
+            new OAuth2TokenResponse
+            {
+                IssueDate = DateTime.Now.Subtract(TimeSpan.FromMinutes(10)),
+                ExpiresIn = 300
+            }.Valid());
 
-        new OAuth2TokenResponse().Valid(10).Should().BeFalse();
+        Assert.IsFalse(new OAuth2TokenResponse().Valid(10));
 
         OAuth2TokenResponse token = null;
-        token.Valid().Should().BeFalse();
+        Assert.IsFalse(token.Valid());
     }
 }
