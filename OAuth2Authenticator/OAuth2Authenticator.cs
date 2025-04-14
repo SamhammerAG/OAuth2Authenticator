@@ -6,7 +6,6 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Net.Http.Json;
 using System.Threading;
-using OAuth2Authenticator.Internal;
 
 namespace OAuth2Authenticator
 {
@@ -156,7 +155,7 @@ namespace OAuth2Authenticator
             if (!resp.IsSuccessStatusCode)
             {
                 _logger.LogError("Token request to {0} failed with an {1} response! {2}",
-                    resp.RequestMessage.RequestUri.ToString(),
+                    resp.RequestMessage?.RequestUri?.ToString(),
                     resp.StatusCode,
                     await resp.Content.ReadAsStringAsync());
             }

@@ -184,7 +184,7 @@ public class OAuth2AuthenticatorTest : BaseUnitTest
         }
     }
 
-    private class OAuth2RequestParams
+    private static class OAuth2RequestParams
     {
         public const string ClientId = "client_id";
         public const string GrantType = "grant_type";
