@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OAuth2Authenticator.Extensions
 {
@@ -9,7 +10,7 @@ namespace OAuth2Authenticator.Extensions
         /// </summary>
         /// <param name="token">Token</param>
         /// <returns>Successful</returns>
-        public static bool Successful(this OAuth2TokenResponse? token)
+        public static bool Successful([NotNullWhen(true)] this OAuth2TokenResponse? token)
         {
             return token != null && string.IsNullOrEmpty(token.Error);
         }
@@ -20,7 +21,7 @@ namespace OAuth2Authenticator.Extensions
         /// <param name="token">Token</param>
         /// <param name="threshold">The given threshold in seconds gets removed of the token life span. So the token expires before the actual expiration time.</param>
         /// <returns>Valid</returns>
-        public static bool Valid(this OAuth2TokenResponse? token, int threshold = 0)
+        public static bool Valid([NotNullWhen(true)] this OAuth2TokenResponse? token, int threshold = 0)
         {
             return token != null && token.IssueDate.AddSeconds(Math.Max(token.ExpiresIn - threshold, 0)) >= DateTime.Now;
         }

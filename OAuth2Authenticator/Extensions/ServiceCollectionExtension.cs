@@ -8,7 +8,7 @@ namespace OAuth2Authenticator.Extensions
         /// <summary>
         /// Adds an HTTP client instance and the authenticator to the services.
         /// </summary>
-        public static void InitOAuth2Authenticator(this IServiceCollection services)
+        public static void AddOAuth2Authenticator(this IServiceCollection services)
         {
             services.AddHttpClient<OAuth2Authenticator>();
             services.AddScoped<IOAuth2Authenticator, OAuth2Authenticator>();
