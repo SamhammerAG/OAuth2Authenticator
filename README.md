@@ -15,7 +15,7 @@ Initialize the client service in the application startup. 
 ```cs
 public void ConfigureServices(IServiceCollection services)
 {
-    services.InitOAuth2Authenticator();
+    services.AddOAuth2Authenticator();
 }
 ```
 
@@ -77,7 +77,3 @@ Checks that the token is not expired.
 ```cs
 token.Valid()
 ```
-
-
-## API Reference
-* [OAuth2Authenticator](https://www.fuget.org/packages/OAuth2Authenticator)
