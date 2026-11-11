@@ -8,7 +8,7 @@
 
         <PackageId>OAuth2Authenticator</PackageId>
         <Description>OAuth client to simplify the process of retrieving and managing OAuth tokens. It supports multiple grant types and provides built-in handlers for token refresh and expiration.</Description>
-        <Version>6.0.1</Version>
+        <Version>6.0.2</Version>
         <RepositoryUrl>https://github.com/SamhammerAG/OAuth2Authenticator</RepositoryUrl>
         <PackageProjectUrl>https://github.com/SamhammerAG/OAuth2Authenticator</PackageProjectUrl>
         <Authors>Samhammer AG</Authors>
